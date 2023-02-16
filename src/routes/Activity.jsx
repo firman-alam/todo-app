@@ -6,41 +6,32 @@ import {
   HiOutlineSwitchVertical,
   HiPlus,
 } from 'react-icons/hi';
-import Form from '../components/Form';
-
 import {
   useCreateTodoMutation,
   useGetTodoByGroupQuery,
   useDeleteTodoMutation,
+  useUpdateTodoMutation,
 } from '../app/api/todoApiSlice';
-import { useGetOneGroupQuery } from '../app/api/groupApiSlice';
-import Todo from '../components/Todo';
-import Header from '../components/Header';
-import InlineEdit from '../components/InlineEdit';
-import Content from '../components/todos/Content';
+import { Content, Dropdown, Form, Header } from '../components';
+import EditForm from '../components/EditForm';
 
 function Activity() {
-  // react-router-dom
   let { id } = useParams();
   const navigate = useNavigate();
+  const [isOpenForm, setIsOpenForm] = useState(false);
+  const [isUpdateForm, setIsUpdateForm] = useState(false);
+  const [dataEdit, setDataEdit] = useState(null);
 
-  // rtk query
   const { data, error, isError, isLoading, isSuccess } =
     useGetTodoByGroupQuery(id);
-  const todos = data?.data;
+  const todos = data.data;
 
-  // state
-  const [isOpen, setIsOpen] = useState(false);
-  // const [titleEdit, setTitleEdit] = useState(title);
-
-  // create function handler
+  // create or update function handler
   const [addTodo] = useCreateTodoMutation();
+  const [updateTodo] = useUpdateTodoMutation();
   const addTodoHandler = (todo) => {
-    try {
-      addTodo(todo);
-    } catch (error) {
-      console.log(error);
-    }
+    if (!todo.id) addTodo(todo);
+    if (todo.id) updateTodo(todo);
   };
 
   // delete funtion handler
@@ -53,9 +44,17 @@ function Activity() {
     }
   };
 
-  // close modal handler
-  const handleClose = () => {
-    setIsOpen((prev) => !prev);
+  // close form handler
+  const handleCloseForm = () => {
+    setIsOpenForm((prev) => !prev);
+  };
+  // close update form handler
+  const handleUpdateForm = () => {
+    setIsUpdateForm((prev) => !prev);
+  };
+
+  const handleEdit = (todo) => {
+    setDataEdit(todo);
   };
 
   let content;
@@ -64,17 +63,30 @@ function Activity() {
   } else if (isError) {
     content = <p>Oh no, there was an error {error}</p>;
   } else if (isSuccess) {
-    content = <Content items={todos} handleDelete={deleteTodoHandler} />;
+    content = (
+      <Content
+        items={todos}
+        handleEdit={handleEdit}
+        handleUpdateForm={handleUpdateForm}
+        handleDelete={deleteTodoHandler}
+      />
+    );
   }
 
   return (
-    <main className='home'>
+    <main className='home' data-cy='Item-List'>
       <Header />
       <Form
         addTodo={addTodoHandler}
         id={id}
-        isOpen={isOpen}
-        handleClose={handleClose}
+        isOpenForm={isOpenForm}
+        handleCloseForm={handleCloseForm}
+      />
+      <EditForm
+        data={dataEdit}
+        updateTodo={addTodoHandler}
+        isUpdateForm={isUpdateForm}
+        handleUpdateForm={handleUpdateForm}
       />
       <section className='home__content'>
         <div className='home__content-header'>
@@ -86,11 +98,14 @@ function Activity() {
             <HiOutlinePencil className='icon' />
           </div>
           <div className='header__right'>
-            <HiOutlineSwitchVertical className='switch_icon' />
+            <button className='button-switch'>
+              <HiOutlineSwitchVertical className='icon' />
+            </button>
 
             <button
+              className='button-add'
               onClick={() => {
-                setIsOpen((prev) => !prev);
+                setIsOpenForm((prev) => !prev);
               }}
             >
               <HiPlus className='icon' />

@@ -1,26 +1,31 @@
 import { AiOutlineClose } from 'react-icons/ai';
 import { useForm } from 'react-hook-form';
 
-function Form({ addTodo, id: activity_group_id, isOpenForm, handleCloseForm }) {
-  const { register, handleSubmit, reset, formState } = useForm({
-    mode: 'onChange',
-  });
+function EditForm({ data, isUpdateForm, handleUpdateForm, updateTodo }) {
+  const { register, handleSubmit, reset, formState, setValue } = useForm();
+
+  const id = data.id;
+
+  setValue('title', data.title);
+  setValue('priority', data.priority);
 
   const onSubmit = (data) => {
-    addTodo({ activity_group_id, ...data });
+    // let cxa = { id, ...data };
+    updateTodo({ id, data });
+    // console.log(cxa);
     reset();
-    handleCloseForm();
+    handleUpdateForm();
   };
 
   return (
     <>
-      {isOpenForm ? (
-        <section className='modal' data-cy='Tambah-List-Item'>
+      {isUpdateForm ? (
+        <section className='modal'>
           <div className='modal__header'>
             <p>Tambah List Item</p>
             <AiOutlineClose
               className='icon'
-              onClick={() => handleCloseForm()}
+              onClick={() => handleUpdateForm()}
             />
           </div>
           <hr />
@@ -28,7 +33,7 @@ function Form({ addTodo, id: activity_group_id, isOpenForm, handleCloseForm }) {
             <label htmlFor='nama'>Nama List Item</label>
             <input {...register('title', { required: true })} />
             <label htmlFor='priority'>Priority</label>
-            <select defaultValue='very-high'>
+            <select {...register('priority', { required: true })}>
               <option>Pilih Priority</option>
               <option value='very-high'>Very High</option>
               <option value='high'>High</option>
@@ -37,9 +42,7 @@ function Form({ addTodo, id: activity_group_id, isOpenForm, handleCloseForm }) {
               <option value='very-low'>Very Low</option>
             </select>
             <div className='modal__footer'>
-              <button type='submit' disabled={!formState.isValid}>
-                Simpan
-              </button>
+              <button type='submit'>Simpan</button>
             </div>
           </form>
         </section>
@@ -48,4 +51,4 @@ function Form({ addTodo, id: activity_group_id, isOpenForm, handleCloseForm }) {
   );
 }
 
-export default Form;
+export default EditForm;

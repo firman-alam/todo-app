@@ -53,12 +53,12 @@ function Home() {
   }
 
   return (
-    <main className='home'>
+    <main className='home' data-cy='activity-dashboard'>
       <Header />
       <section className='home__content'>
         <div className='home__content-header'>
           <p>Activity</p>
-          <button onClick={addNewGroup}>
+          <button className='button-new' onClick={addNewGroup}>
             <HiPlus className='icon' />
             <span>Tambah</span>
           </button>

@@ -66,19 +66,38 @@ body {
       }
 
       .header__right {
+        position: relative;
+        display: flex;
         gap: 1rem;
-        color: #888888;
 
-        .switch_icon {
-          font-size: 1.2rem;
+        .button-switch {
+          height: 35px;
+          width: 35px;
           border-radius: 50%;
-          border: 2px solid #888888;
+          color: #888888;
+          border: 1px solid #888888;
           cursor: pointer;
         }
 
-        button > .icon {
+        .button-add {
           background-color: #16abf8;
+          color: #ffffff;
+          font-size: 18px;
+          line-height: 27px;
+          padding: 14px 21px;
+          border-radius: 45px;
           border: none;
+          cursor: pointer;
+
+          display: flex;
+          align-items: center;
+          gap: 0.25rem;
+          background-color: #16abf8;
+
+          .icon,
+          span {
+            background-color: #16abf8;
+          }
         }
       }
 
@@ -95,26 +114,40 @@ body {
           font-size: 1.2rem;
         }
       }
+    }
 
-      button {
+    .home__content-card {
+      display: flex;
+      align-items: center;
+      justify-content: start;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .home__content-items {
+      align-items: center;
+      justify-content: center;
+      margin: 0;
+    }
+
+    .button-new {
+      background-color: #16abf8;
+      color: #ffffff;
+      font-size: 18px;
+      line-height: 27px;
+      padding: 14px 21px;
+      border-radius: 45px;
+      border: none;
+      cursor: pointer;
+
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      background-color: #16abf8;
+
+      .icon,
+      span {
         background-color: #16abf8;
-        color: #ffffff;
-        font-size: 18px;
-        line-height: 27px;
-        padding: 14px 21px;
-        border-radius: 45px;
-        border: none;
-        cursor: pointer;
-
-        display: flex;
-        align-items: center;
-        gap: 0.25rem;
-        background-color: #16abf8;
-
-        .icon,
-        span {
-          background-color: #16abf8;
-        }
       }
     }
   }
@@ -191,11 +224,22 @@ body {
     background-color: #ffffff;
     display: flex;
     align-items: center;
+    outline-style: none;
 
     label {
       margin-right: 1rem;
       background-color: #ffffff;
       color: #000;
+    }
+
+    input[type='checkbox']:checked + label {
+      text-decoration: line-through;
+      color: #888888;
+    }
+
+    input[type='checkbox'] {
+      accent-color: #16abf8;
+      color: #ffffff;
     }
   }
 
@@ -214,6 +258,7 @@ body {
 }
 
 .modal {
+  z-index: 999;
   width: 700px;
   height: 410px;
   position: absolute;
@@ -309,6 +354,12 @@ body {
         width: 150px;
         cursor: pointer;
       }
+
+      button:disabled {
+        cursor: not-allowed;
+        background-color: #67ccff;
+        color: #ffffff;
+      }
     }
   }
 }
@@ -329,4 +380,64 @@ body {
   color: #111111;
   outline-style: none;
   border: none;
+}
+
+.nullData {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .person {
+    width: 345px;
+    height: 345px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.menu {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.1);
+  font-size: 0.8rem;
+  list-style: none;
+  border-radius: 6px;
+
+  .menu__item {
+    background-color: #ffffff;
+    padding: 0.25rem 0.5rem;
+    border-bottom: 1px solid #e5e5e5;
+    font-size: 16px;
+    font-weight: 400;
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 5px;
+    padding-right: 2rem;
+
+    span,
+    .icon {
+      background-color: #ffffff;
+    }
+
+    span {
+      white-space: nowrap;
+    }
+
+    .icon {
+      color: #16abf8;
+    }
+  }
+
+  .menu__item:first-child {
+    border-radius: 6px 6px 0 0;
+  }
+  .menu__item:last-child {
+    border-radius: 0 0 6px 6px;
+  }
 }

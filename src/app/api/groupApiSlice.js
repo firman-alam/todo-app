@@ -36,7 +36,7 @@ export const groupApiSlice = apiSlice.injectEndpoints({
       query: (id, data) => ({
         url: `/activity-groups/${id}`,
         method: 'PATCH',
-        body: { data },
+        body: data,
       }),
       invalidatesTags: [{ type: 'Group' }],
     }),

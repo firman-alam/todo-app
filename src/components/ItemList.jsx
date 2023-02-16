@@ -1,14 +1,15 @@
 import LineItem from './LineItem';
 
-const ItemList = ({ items, handleCheck, handleDelete }) => {
+const ItemList = ({ items, handleEdit, handleDelete, handleUpdateForm }) => {
   return (
     <ul>
       {items.map((item) => (
         <LineItem
           key={item.id}
           item={item}
-          handleCheck={handleCheck}
+          handleEdit={handleEdit}
           handleDelete={handleDelete}
+          handleUpdateForm={handleUpdateForm}
         />
       ))}
     </ul>

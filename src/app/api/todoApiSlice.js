@@ -28,7 +28,7 @@ export const todoApiSlice = apiSlice.injectEndpoints({
       query: (id, data) => ({
         url: `/todo-items/${id}`,
         method: 'PATCH',
-        body: { ...data },
+        body: data,
       }),
       invalidatesTags: [{ type: 'Todo' }],
     }),

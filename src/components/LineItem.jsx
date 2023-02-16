@@ -1,21 +1,18 @@
 import { HiOutlinePencil, HiOutlineTrash } from 'react-icons/hi';
 
-const LineItem = ({ item, handleCheck, handleDelete }) => {
+const LineItem = ({ item, handleEdit, handleDelete, handleUpdateForm }) => {
   return (
     <li className='item'>
       <div className='item__left'>
-        <input
-          type='checkbox'
-          onChange={() => handleCheck(item.id)}
-          checked={item.checked}
+        <input type='checkbox' />
+        <label>{item.title}</label>
+        <HiOutlinePencil
+          className='icon'
+          onClick={() => {
+            handleEdit(item);
+            handleUpdateForm();
+          }}
         />
-        <label
-          style={item.checked ? { textDecoration: 'line-through' } : null}
-          onDoubleClick={() => handleCheck(item.id)}
-        >
-          {item.title}
-        </label>
-        <HiOutlinePencil className='icon' />
       </div>
       <div className='item__right'>
         <HiOutlineTrash
