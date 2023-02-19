@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import person from '../../assets/person.svg';
 import { setModalForm } from '../../app/reducers/modalFormSlice';
 import Person from '../controlled/Person';
-import { setSort } from '../../app/reducers/sortOptionsSlice';
 
 const Content = ({ items }) => {
   const dispatch = useDispatch();

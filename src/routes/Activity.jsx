@@ -2,7 +2,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { HiChevronLeft, HiOutlineSwitchVertical, HiPlus } from 'react-icons/hi';
 import { useDispatch, useSelector } from 'react-redux';
 import { setModalForm } from '../app/reducers/modalFormSlice';
-import Content from '../components/Todos/Content';
+import Content from '../components/todos/Content';
 import Header from '../components/Header';
 import ModalForm from '../components/modals/ModalForm';
 import ModalAlert from '../components/modals/ModalAlert';
