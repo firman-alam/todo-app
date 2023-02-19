@@ -8,7 +8,8 @@ function Card({ item }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleDelete = () => {
+  const handleDelete = (e) => {
+    e.stopPropagation();
     dispatch(
       setModalAlert({
         type: 'activity',
@@ -19,17 +20,16 @@ function Card({ item }) {
     );
   };
 
+  const handleNavigate = () => {
+    navigate(`/activity/${item.id}`);
+  };
+
   const formattedDate = formatDate(item.created_at);
 
   return (
-    <section className='card' data-cy='activity-item'>
+    <section className='card' data-cy='activity-item' onClick={handleNavigate}>
       <div className='card__container'>
-        <p
-          data-cy='activity-item-title'
-          onClick={() => navigate(`/activity/${item.id}`)}
-        >
-          {item.title}
-        </p>
+        <p data-cy='activity-item-title'>{item.title}</p>
         <div className='card__footer'>
           <span data-cy='activity-item-date'>{formattedDate}</span>
           <HiOutlineTrash
