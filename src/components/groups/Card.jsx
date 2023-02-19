@@ -22,7 +22,7 @@ function Card({ item }) {
   const formattedDate = formatDate(item.created_at);
 
   return (
-    <section className='card'>
+    <section className='card' data-cy='activity-item'>
       <div className='card__container'>
         <p
           data-cy='activity-item-title'

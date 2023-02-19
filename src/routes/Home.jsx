@@ -8,7 +8,8 @@ import Content from '../components/groups/Content';
 import { useDispatch, useSelector } from 'react-redux';
 import ModalAlert from '../components/modals/ModalAlert';
 import { setActivity } from '../app/reducers/activitySlice';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
+import { setModalAlert } from '../app/reducers/modalAlertSlice';
 
 function Home() {
   const dispatch = useDispatch();
@@ -17,6 +18,20 @@ function Home() {
   const { isOpen, isDeleteComplete, ...other } = useSelector(
     (state) => state.modalAlert
   );
+
+  const handleClickOutside = (e) => {
+    if (!e.target.classList.contains('alert')) {
+      dispatch(setModalAlert({ isOpen: false }));
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('click', handleClickOutside, true);
+
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, []);
 
   const addNewGroup = () => {
     try {

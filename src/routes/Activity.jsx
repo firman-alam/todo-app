@@ -10,6 +10,8 @@ import { useGetOneGroupQuery } from '../app/api/groupApiSlice';
 import { setSort } from '../app/reducers/sortOptionsSlice';
 import SortDropdown from '../components/sorts/SortDropdown';
 import InlineEdit from '../components/InlineEdit';
+import { useEffect } from 'react';
+import { setModalAlert } from '../app/reducers/modalAlertSlice';
 
 function Activity() {
   const { id } = useParams();
@@ -21,6 +23,22 @@ function Activity() {
   const { isOpen: openForm, ...other } = useSelector(
     (state) => state.modalForm
   );
+
+  const handleClickOutside = (e) => {
+    if (!e.target.classList.contains('modal' | 'sort__dropdown' | 'alert')) {
+      dispatch(setModalForm({ isOpen: false }));
+      dispatch(setSort({ isOpen: false }));
+      dispatch(setModalAlert({ isOpen: false }));
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('click', handleClickOutside, true);
+
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, []);
 
   const handleForm = () => {
     dispatch(
