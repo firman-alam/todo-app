@@ -12,6 +12,7 @@ export const todoApiSlice = apiSlice.injectEndpoints({
     }),
     getTodoByGroup: builder.query({
       query: (id) => `/todo-items?activity_group_id=${id}`,
+      transformResponse: (response, meta, arg) => response.data,
       providesTags: (result) => {
         if (result?.ids) {
           return [
@@ -23,9 +24,18 @@ export const todoApiSlice = apiSlice.injectEndpoints({
     }),
     getTodoDetail: builder.query({
       query: (id) => `/todo-items/${id}`,
+      transformResponse: (response, meta, arg) => response.data,
+      providesTags: (result) => {
+        if (result?.ids) {
+          return [
+            { type: 'Todo', id: 'TD' },
+            ...result.ids.map((data) => ({ type: 'Todo', id })),
+          ];
+        } else return [{ type: 'Todo', id: 'TD' }];
+      },
     }),
     updateTodo: builder.mutation({
-      query: (id, data) => ({
+      query: ({ id, ...data }) => ({
         url: `/todo-items/${id}`,
         method: 'PATCH',
         body: data,

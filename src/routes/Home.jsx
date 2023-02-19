@@ -1,17 +1,23 @@
 import {
   useCreateGroupMutation,
-  useDeleteGroupMutation,
   useGetGroupsQuery,
 } from '../app/api/groupApiSlice';
 import { HiPlus } from 'react-icons/hi';
-import Card from '../components/Card';
 import Header from '../components/Header';
+import Content from '../components/groups/Content';
+import { useDispatch, useSelector } from 'react-redux';
+import ModalAlert from '../components/modals/ModalAlert';
+import { setActivity } from '../app/reducers/activitySlice';
+import { useEffect } from 'react';
 
 function Home() {
-  const { data, error, isError, isLoading, isSuccess } = useGetGroupsQuery();
-  const groups = data?.data;
-
+  const dispatch = useDispatch();
   const [addNew] = useCreateGroupMutation();
+  const { data: groups, isSuccess } = useGetGroupsQuery();
+  const { isOpen, isDeleteComplete, ...other } = useSelector(
+    (state) => state.modalAlert
+  );
+
   const addNewGroup = () => {
     try {
       addNew({
@@ -23,42 +29,28 @@ function Home() {
     }
   };
 
-  const [deleteGroup] = useDeleteGroupMutation();
-  const deleteGroupById = (id) => {
-    try {
-      deleteGroup(id);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  useEffect(() => {
+    dispatch(setActivity(groups));
+  }, [groups]);
 
   // content
   let content;
-  if (isLoading) {
-    content = <p>Loading...</p>;
-  } else if (isError) {
-    content = <p>Oh no, there was an error {error}</p>;
-  } else if (isSuccess) {
-    content = groups.map((group) => {
-      return (
-        <Card
-          key={group.id}
-          id={group.id}
-          title={group.title}
-          date={group.created_at}
-          deleteCard={() => deleteGroupById(group.id)}
-        />
-      );
-    });
+  if (isSuccess) {
+    content = <Content items={groups} createGroup={addNewGroup} />;
   }
 
   return (
     <main className='home' data-cy='activity-dashboard'>
       <Header />
+      {isOpen && <ModalAlert />}
       <section className='home__content'>
         <div className='home__content-header'>
-          <p>Activity</p>
-          <button className='button-new' onClick={addNewGroup}>
+          <p data-cy='activity-title'>Activity</p>
+          <button
+            className='button-new'
+            onClick={addNewGroup}
+            data-cy='activity-add-button'
+          >
             <HiPlus className='icon' />
             <span>Tambah</span>
           </button>

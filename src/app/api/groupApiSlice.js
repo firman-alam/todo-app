@@ -12,6 +12,7 @@ export const groupApiSlice = apiSlice.injectEndpoints({
     }),
     getGroups: builder.query({
       query: () => `/activity-groups?email=aladiat046@gmail.com`,
+      transformResponse: (response, meta, arg) => response.data,
       providesTags: (result) => {
         if (result?.ids) {
           return [
@@ -26,14 +27,14 @@ export const groupApiSlice = apiSlice.injectEndpoints({
       providesTags: (result) => {
         if (result?.ids) {
           return [
-            { type: 'Group', id: 'AG' },
-            ...result.ids.map((data) => ({ type: 'Group', id })),
+            { type: 'Todo', id: 'TD' },
+            ...result.ids.map((data) => ({ type: 'Todo', id })),
           ];
-        } else return [{ type: 'Group', id: 'AG' }];
+        } else return [{ type: 'Todo', id: 'TD' }];
       },
     }),
     updateGroup: builder.mutation({
-      query: (id, data) => ({
+      query: ({ id, ...data }) => ({
         url: `/activity-groups/${id}`,
         method: 'PATCH',
         body: data,

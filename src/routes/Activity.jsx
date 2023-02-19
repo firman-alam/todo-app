@@ -1,112 +1,79 @@
-import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import {
-  HiChevronLeft,
-  HiOutlinePencil,
-  HiOutlineSwitchVertical,
-  HiPlus,
-} from 'react-icons/hi';
-import {
-  useCreateTodoMutation,
-  useGetTodoByGroupQuery,
-  useDeleteTodoMutation,
-  useUpdateTodoMutation,
-} from '../app/api/todoApiSlice';
-import { Content, Dropdown, Form, Header } from '../components';
-import EditForm from '../components/EditForm';
+import { HiChevronLeft, HiOutlineSwitchVertical, HiPlus } from 'react-icons/hi';
+import { useDispatch, useSelector } from 'react-redux';
+import { setModalForm } from '../app/reducers/modalFormSlice';
+import Content from '../components/Todos/Content';
+import Header from '../components/Header';
+import ModalForm from '../components/modals/ModalForm';
+import ModalAlert from '../components/modals/ModalAlert';
+import { useGetOneGroupQuery } from '../app/api/groupApiSlice';
+import { setSort } from '../app/reducers/sortOptionsSlice';
+import SortDropdown from '../components/sorts/SortDropdown';
+import InlineEdit from '../components/InlineEdit';
 
 function Activity() {
-  let { id } = useParams();
+  const { id } = useParams();
   const navigate = useNavigate();
-  const [isOpenForm, setIsOpenForm] = useState(false);
-  const [isUpdateForm, setIsUpdateForm] = useState(false);
-  const [dataEdit, setDataEdit] = useState(null);
+  const dispatch = useDispatch();
+  const { data, isSuccess } = useGetOneGroupQuery(id);
+  const { isOpen: openAlert } = useSelector((state) => state.modalAlert);
+  const { isOpen: openSort, sortBy } = useSelector((state) => state.sortOption);
+  const { isOpen: openForm, ...other } = useSelector(
+    (state) => state.modalForm
+  );
 
-  const { data, error, isError, isLoading, isSuccess } =
-    useGetTodoByGroupQuery(id);
-  const todos = data.data;
-
-  // create or update function handler
-  const [addTodo] = useCreateTodoMutation();
-  const [updateTodo] = useUpdateTodoMutation();
-  const addTodoHandler = (todo) => {
-    if (!todo.id) addTodo(todo);
-    if (todo.id) updateTodo(todo);
+  const handleForm = () => {
+    dispatch(
+      setModalForm({
+        isOpen: true,
+        titleForm: 'Tambahkan List Item',
+        priority: 'Very High',
+      })
+    );
   };
 
-  // delete funtion handler
-  const [deleteTodo] = useDeleteTodoMutation();
-  const deleteTodoHandler = (id) => {
-    try {
-      deleteTodo(id);
-    } catch (error) {
-      console.log(error);
-    }
+  const handleNavigateBack = () => {
+    navigate(-1);
   };
 
-  // close form handler
-  const handleCloseForm = () => {
-    setIsOpenForm((prev) => !prev);
-  };
-  // close update form handler
-  const handleUpdateForm = () => {
-    setIsUpdateForm((prev) => !prev);
-  };
-
-  const handleEdit = (todo) => {
-    setDataEdit(todo);
+  const handleSortOpt = () => {
+    dispatch(setSort({ isOpen: !openSort }));
   };
 
   let content;
-  if (isLoading) {
-    content = <p>Loading...</p>;
-  } else if (isError) {
-    content = <p>Oh no, there was an error {error}</p>;
-  } else if (isSuccess) {
-    content = (
-      <Content
-        items={todos}
-        handleEdit={handleEdit}
-        handleUpdateForm={handleUpdateForm}
-        handleDelete={deleteTodoHandler}
-      />
-    );
+  if (isSuccess) {
+    content = <Content items={data} />;
   }
 
   return (
     <main className='home' data-cy='Item-List'>
       <Header />
-      <Form
-        addTodo={addTodoHandler}
-        id={id}
-        isOpenForm={isOpenForm}
-        handleCloseForm={handleCloseForm}
-      />
-      <EditForm
-        data={dataEdit}
-        updateTodo={addTodoHandler}
-        isUpdateForm={isUpdateForm}
-        handleUpdateForm={handleUpdateForm}
-      />
+      {openForm && <ModalForm />}
+      {openAlert && <ModalAlert />}
+      {openSort && <SortDropdown />}
       <section className='home__content'>
         <div className='home__content-header'>
           <div className='header__left'>
-            <HiChevronLeft className='icon' onClick={() => navigate(-1)} />
-
-            {/* <InlineEdit value={titleEdit} setValue={setTitleEdit} /> */}
-
-            <HiOutlinePencil className='icon' />
+            <HiChevronLeft
+              className='icon'
+              onClick={() => handleNavigateBack()}
+              data-cy='todo-back-button'
+            />
+            <InlineEdit />
           </div>
           <div className='header__right'>
-            <button className='button-switch'>
-              <HiOutlineSwitchVertical className='icon' />
-            </button>
+            <HiOutlineSwitchVertical
+              className='button-switch'
+              onClick={handleSortOpt}
+              data-cy='todo-sort-button'
+            />
+
+            <div className='sort__open'></div>
 
             <button
               className='button-add'
-              onClick={() => {
-                setIsOpenForm((prev) => !prev);
-              }}
+              onClick={handleForm}
+              data-cy='todo-add-button'
             >
               <HiPlus className='icon' />
               <span>Tambah</span>
