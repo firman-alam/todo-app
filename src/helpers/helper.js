@@ -82,7 +82,7 @@ export const sortList = [
   },
   {
     title: 'Z-A',
-    type: 'SZA',
+    type: 'ZA',
   },
   {
     title: 'Belum Selesai',

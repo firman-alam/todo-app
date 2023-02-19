@@ -1,5 +1,4 @@
 import ItemList from './ItemList';
-import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import person from '../../assets/person.svg';
 import { setModalForm } from '../../app/reducers/modalFormSlice';
@@ -17,10 +16,10 @@ const Content = ({ items }) => {
       case 'OLD':
         return todos.slice().sort((a, b) => a.id - b.id);
       case 'AZ':
-        return todos.slice().sort((a, b) => a.localeCompare(b));
+        return todos.slice().sort((a, b) => (a.title > b.title ? 1 : -1));
       case 'ZA':
-        return todos.slice().sort((a, b) => b.localeCompare(a));
-      case 'INCOMPLETED':
+        return todos.slice().sort((a, b) => (a.title < b.title ? 1 : -1));
+      case 'INCOMPLETE':
         return todos.slice().sort((a, b) => b.is_active - a.is_active);
       default:
         return todos;
@@ -38,11 +37,7 @@ const Content = ({ items }) => {
   };
 
   if (todos.length > 0) {
-    return (
-      <>
-        <ItemList items={sortTodos(sortBy)} />
-      </>
-    );
+    return <ItemList items={sortTodos(sortBy)} />;
   }
 
   return <Person src={person} onClick={openForm} data-cy='todo-empty-state' />;
