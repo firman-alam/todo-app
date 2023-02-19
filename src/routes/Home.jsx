@@ -51,7 +51,7 @@ function Home() {
       )}
       <section className='home__content'>
         <div className='home__content-header'>
-          <p data-cy='activity-title'>Activity</p>
+          <h3 data-cy='activity-title'>Activity</h3>
           <button
             className='button-new'
             onClick={addNewGroup}

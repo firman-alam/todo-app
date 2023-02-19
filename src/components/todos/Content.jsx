@@ -45,7 +45,7 @@ const Content = ({ items }) => {
     );
   }
 
-  return <Person src={person} onClick={openForm} />;
+  return <Person src={person} onClick={openForm} data-cy='todo-empty-state' />;
 };
 
 export default Content;
