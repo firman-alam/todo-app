@@ -10,6 +10,8 @@ import ModalAlert from '../components/modals/ModalAlert';
 import { setActivity } from '../app/reducers/activitySlice';
 import { useEffect, useRef } from 'react';
 import { setModalAlert } from '../app/reducers/modalAlertSlice';
+import ModalInfo from '../components/modals/ModalInfo';
+import ClickOutside from '../components/ClickOutside';
 
 function Home() {
   const dispatch = useDispatch();
@@ -19,28 +21,13 @@ function Home() {
     (state) => state.modalAlert
   );
 
-  const handleClickOutside = (e) => {
-    if (!e.target.classList.contains('alert')) {
-      dispatch(setModalAlert({ isOpen: false }));
-    }
+  const addNewGroup = () => {
+    addNew({ title: 'New Activity', email: 'aladiat046@gmail.com' });
   };
 
-  useEffect(() => {
-    document.addEventListener('click', handleClickOutside, true);
-
-    return () => {
-      document.removeEventListener('click', handleClickOutside);
-    };
-  }, []);
-
-  const addNewGroup = () => {
-    try {
-      addNew({
-        title: 'New Activity',
-        email: 'aladiat046@gmail.com',
-      });
-    } catch (error) {
-      console.log(error);
+  const handleModal = () => {
+    if (isOpen) {
+      dispatch(setModalAlert({ isOpen: false, isDeleteComplete: false }));
     }
   };
 
@@ -57,7 +44,11 @@ function Home() {
   return (
     <main className='home' data-cy='activity-dashboard'>
       <Header />
-      {isOpen && <ModalAlert />}
+      {isOpen && (
+        <ClickOutside onClick={handleModal}>
+          {!isDeleteComplete ? <ModalAlert /> : <ModalInfo />}
+        </ClickOutside>
+      )}
       <section className='home__content'>
         <div className='home__content-header'>
           <p data-cy='activity-title'>Activity</p>

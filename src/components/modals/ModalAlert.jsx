@@ -20,10 +20,8 @@ const ModalAlert = () => {
   const handleDelete = async () => {
     if (type === 'activity') {
       deleteGroup(id);
-      closeModal();
     } else {
       deleteTodo(id);
-      closeModal();
     }
     dispatch(setModalAlert({ isDeleteComplete: true }));
   };

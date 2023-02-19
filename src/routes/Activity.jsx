@@ -12,33 +12,31 @@ import SortDropdown from '../components/sorts/SortDropdown';
 import InlineEdit from '../components/InlineEdit';
 import { useEffect } from 'react';
 import { setModalAlert } from '../app/reducers/modalAlertSlice';
+import ModalInfo from '../components/modals/ModalInfo';
+import ClickOutside from '../components/ClickOutside';
 
 function Activity() {
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { data, isSuccess } = useGetOneGroupQuery(id);
-  const { isOpen: openAlert } = useSelector((state) => state.modalAlert);
+  const { isOpen: openAlert, isDeleteComplete } = useSelector(
+    (state) => state.modalAlert
+  );
   const { isOpen: openSort, sortBy } = useSelector((state) => state.sortOption);
   const { isOpen: openForm, ...other } = useSelector(
     (state) => state.modalForm
   );
 
-  const handleClickOutside = (e) => {
-    if (!e.target.classList.contains('modal' | 'sort__dropdown' | 'alert')) {
-      dispatch(setModalForm({ isOpen: false }));
+  const handleModal = () => {
+    if (openAlert) {
+      dispatch(setModalAlert({ isOpen: false, isDeleteComplete: false }));
+    } else if (openForm) {
+      dispatch(setModalForm({ isOpen: false, isSubmitted: false }));
+    } else if (openSort) {
       dispatch(setSort({ isOpen: false }));
-      dispatch(setModalAlert({ isOpen: false }));
     }
   };
-
-  useEffect(() => {
-    document.addEventListener('click', handleClickOutside, true);
-
-    return () => {
-      document.removeEventListener('click', handleClickOutside);
-    };
-  }, []);
 
   const handleForm = () => {
     dispatch(
@@ -66,9 +64,21 @@ function Activity() {
   return (
     <main className='home' data-cy='Item-List'>
       <Header />
-      {openForm && <ModalForm />}
-      {openAlert && <ModalAlert />}
-      {openSort && <SortDropdown />}
+      {openForm && (
+        <ClickOutside onClick={handleModal}>
+          <ModalForm />
+        </ClickOutside>
+      )}
+      {openAlert && (
+        <ClickOutside onClick={handleModal}>
+          {!isDeleteComplete ? <ModalAlert /> : <ModalInfo />}
+        </ClickOutside>
+      )}
+      {openSort && (
+        <ClickOutside onClick={handleModal}>
+          <SortDropdown />
+        </ClickOutside>
+      )}
       <section className='home__content'>
         <div className='home__content-header'>
           <div className='header__left'>

@@ -63,7 +63,11 @@ const ModalForm = () => {
   };
 
   return (
-    <div data-cy='modal-add' className='modal'>
+    <div
+      data-cy='modal-add'
+      className='modal'
+      onClick={(e) => e.stopPropagation()}
+    >
       <FormHeader />
       <hr />
       <div className='modal__form'>
