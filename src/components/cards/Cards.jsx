@@ -1,4 +1,5 @@
 import Card from './Card';
+import './card.scss';
 
 const Cards = ({ items }) => {
   return (

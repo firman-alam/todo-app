@@ -1,4 +1,6 @@
+import './dropdown.scss';
 import { useSelector } from 'react-redux';
+
 import { priority } from '../../helpers/helper';
 import Drop from './Drop';
 

@@ -1,7 +1,8 @@
 import { useDispatch, useSelector } from 'react-redux';
+
 import { setModalForm } from '../../app/reducers/modalFormSlice';
 import { capsLetter } from '../../helpers/helper';
-import Color from './Color';
+import Color from '../controlled/Color';
 
 const ButtonPriority = () => {
   const dispatch = useDispatch();

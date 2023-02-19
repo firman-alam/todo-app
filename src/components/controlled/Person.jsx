@@ -1,4 +1,4 @@
-function Person({ onClick = () => null, ...props }) {
+function Person({ onClick, ...props }) {
   return (
     <figure onClick={onClick} className='nullData'>
       <img alt='activity' {...props} className='person' />

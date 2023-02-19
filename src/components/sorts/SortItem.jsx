@@ -1,7 +1,8 @@
 import { TbCheck } from 'react-icons/tb';
 import { useDispatch, useSelector } from 'react-redux';
-import { setSort } from '../../app/reducers/sortOptionsSlice';
+
 import SortType from './SortType';
+import { setSort } from '../../app/reducers/sortOptionsSlice';
 
 const SortItem = ({ title, type }) => {
   const dispatch = useDispatch();

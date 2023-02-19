@@ -1,6 +1,9 @@
+import './controlled.scss';
+
 import { GrClose } from 'react-icons/gr';
 import { useDispatch, useSelector } from 'react-redux';
-import { setModalForm } from '../app/reducers/modalFormSlice';
+
+import { setModalForm } from '../../app/reducers/modalFormSlice';
 
 const FormHeader = () => {
   const dispatch = useDispatch();
@@ -8,12 +11,12 @@ const FormHeader = () => {
 
   const closeModal = () => {
     const payload = {
-      isOpen: false,
-      isSubmitted: false,
-      titleForm: 'Tambahkan List Item',
       priority: '',
-      isDropDownOpen: false,
+      isOpen: false,
       is_active: false,
+      isSubmitted: false,
+      isDropDownOpen: false,
+      titleForm: 'Tambahkan List Item',
     };
     dispatch(setModalForm(payload));
   };
@@ -21,9 +24,9 @@ const FormHeader = () => {
     <div className='modal__header'>
       <p data-cy='modal-add-title'>{titleForm}</p>
       <GrClose
-        data-cy='modal-add-close-button'
-        onClick={closeModal}
         className='icon'
+        onClick={closeModal}
+        data-cy='modal-add-close-button'
       />
     </div>
   );

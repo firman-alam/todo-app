@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Provider } from 'react-redux';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
-import { store } from './app/store';
-import Home from './routes/Home';
 import './index.scss';
+import Home from './routes/Home';
+import { store } from './app/store';
 import Activity from './routes/Activity';
 
 const router = createBrowserRouter([

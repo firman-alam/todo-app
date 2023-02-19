@@ -1,6 +1,7 @@
-import { HiOutlineTrash } from 'react-icons/hi';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { HiOutlineTrash } from 'react-icons/hi';
+
 import { formatDate } from '../../helpers/helper';
 import { setModalAlert } from '../../app/reducers/modalAlertSlice';
 

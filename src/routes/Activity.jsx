@@ -1,21 +1,25 @@
+// library
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { HiChevronLeft, HiOutlineSwitchVertical, HiPlus } from 'react-icons/hi';
-import { useDispatch, useSelector } from 'react-redux';
+
+// rtk query
+import { setSort } from '../app/reducers/sortOptionsSlice';
 import { setModalForm } from '../app/reducers/modalFormSlice';
+import { useGetOneGroupQuery } from '../app/api/groupApiSlice';
+import { setModalAlert } from '../app/reducers/modalAlertSlice';
+
+// local components
 import Content from '../components/todos/Content';
-import Header from '../components/Header';
+import Header from '../components/controlled/Header';
+import ModalInfo from '../components/modals/ModalInfo';
 import ModalForm from '../components/modals/ModalForm';
 import ModalAlert from '../components/modals/ModalAlert';
-import { useGetOneGroupQuery } from '../app/api/groupApiSlice';
-import { setSort } from '../app/reducers/sortOptionsSlice';
 import SortDropdown from '../components/sorts/SortDropdown';
-import InlineEdit from '../components/InlineEdit';
-import { useEffect } from 'react';
-import { setModalAlert } from '../app/reducers/modalAlertSlice';
-import ModalInfo from '../components/modals/ModalInfo';
-import ClickOutside from '../components/ClickOutside';
+import InlineEdit from '../components/controlled/InlineEdit';
+import ClickOutside from '../components/controlled/ClickOutside';
 
-function Activity() {
+const Activity = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -28,6 +32,7 @@ function Activity() {
     (state) => state.modalForm
   );
 
+  // functions
   const handleModal = () => {
     if (openAlert) {
       dispatch(setModalAlert({ isOpen: false, isDeleteComplete: false }));
@@ -56,6 +61,7 @@ function Activity() {
     dispatch(setSort({ isOpen: !openSort }));
   };
 
+  // content
   let content;
   if (isSuccess) {
     content = <Content items={data} />;
@@ -63,7 +69,45 @@ function Activity() {
 
   return (
     <main className='home' data-cy='Item-List'>
+      {/* Header */}
       <Header />
+
+      {/* Content */}
+      <section className='home__content'>
+        {/* Content Header */}
+        <div className='home__content-header'>
+          {/* Header Left */}
+          <div className='header__left'>
+            <HiChevronLeft
+              className='icon'
+              onClick={() => handleNavigateBack()}
+              data-cy='todo-back-button'
+            />
+            <InlineEdit />
+          </div>
+
+          {/* Header Right */}
+          <div className='header__right'>
+            <HiOutlineSwitchVertical
+              className='button-switch'
+              onClick={handleSortOpt}
+              data-cy='todo-sort-button'
+            />
+            <button
+              className='button-add'
+              onClick={handleForm}
+              data-cy='todo-add-button'
+            >
+              <HiPlus className='icon' />
+              <span>Tambah</span>
+            </button>
+          </div>
+        </div>
+        {/* Content Body */}
+        <article className='home__content-items'>{content}</article>
+      </section>
+
+      {/* Modals */}
       {openForm && (
         <ClickOutside onClick={handleModal}>
           <ModalForm />
@@ -79,39 +123,8 @@ function Activity() {
           <SortDropdown />
         </ClickOutside>
       )}
-      <section className='home__content'>
-        <div className='home__content-header'>
-          <div className='header__left'>
-            <HiChevronLeft
-              className='icon'
-              onClick={() => handleNavigateBack()}
-              data-cy='todo-back-button'
-            />
-            <InlineEdit />
-          </div>
-          <div className='header__right'>
-            <HiOutlineSwitchVertical
-              className='button-switch'
-              onClick={handleSortOpt}
-              data-cy='todo-sort-button'
-            />
-
-            <div className='sort__open'></div>
-
-            <button
-              className='button-add'
-              onClick={handleForm}
-              data-cy='todo-add-button'
-            >
-              <HiPlus className='icon' />
-              <span>Tambah</span>
-            </button>
-          </div>
-        </div>
-        <article className='home__content-items'>{content}</article>
-      </section>
     </main>
   );
-}
+};
 
 export default Activity;

@@ -1,19 +1,26 @@
+import './page.scss';
+
+// library
+import { useEffect } from 'react';
+import { HiPlus } from 'react-icons/hi';
+import { useDispatch, useSelector } from 'react-redux';
+
+// rtk query
 import {
   useCreateGroupMutation,
   useGetGroupsQuery,
 } from '../app/api/groupApiSlice';
-import { HiPlus } from 'react-icons/hi';
-import Header from '../components/Header';
-import Content from '../components/groups/Content';
-import { useDispatch, useSelector } from 'react-redux';
-import ModalAlert from '../components/modals/ModalAlert';
 import { setActivity } from '../app/reducers/activitySlice';
-import { useEffect, useRef } from 'react';
 import { setModalAlert } from '../app/reducers/modalAlertSlice';
-import ModalInfo from '../components/modals/ModalInfo';
-import ClickOutside from '../components/ClickOutside';
 
-function Home() {
+// local components
+import Header from '../components/controlled/Header';
+import ModalInfo from '../components/modals/ModalInfo';
+import ModalAlert from '../components/modals/ModalAlert';
+import Content from '../components/cards/Content';
+import ClickOutside from '../components/controlled/ClickOutside';
+
+const Home = () => {
   const dispatch = useDispatch();
   const [addNew] = useCreateGroupMutation();
   const { data: groups, isSuccess } = useGetGroupsQuery();
@@ -21,16 +28,17 @@ function Home() {
     (state) => state.modalAlert
   );
 
+  // functions
   const addNewGroup = () => {
     addNew({ title: 'New Activity', email: 'aladiat046@gmail.com' });
   };
-
   const handleModal = () => {
     if (isOpen) {
       dispatch(setModalAlert({ isOpen: false, isDeleteComplete: false }));
     }
   };
 
+  // to avoid re-render another component while rendering
   useEffect(() => {
     dispatch(setActivity(groups));
   }, [groups]);
@@ -43,13 +51,12 @@ function Home() {
 
   return (
     <main className='home' data-cy='activity-dashboard'>
+      {/* Header */}
       <Header />
-      {isOpen && (
-        <ClickOutside onClick={handleModal}>
-          {!isDeleteComplete ? <ModalAlert /> : <ModalInfo />}
-        </ClickOutside>
-      )}
+
+      {/* Content */}
       <section className='home__content'>
+        {/* Content Header */}
         <div className='home__content-header'>
           <h3 data-cy='activity-title'>Activity</h3>
           <button
@@ -61,10 +68,19 @@ function Home() {
             <span>Tambah</span>
           </button>
         </div>
+
+        {/* Content Body */}
         <article className='home__content-card'>{content}</article>
       </section>
+
+      {/* modals */}
+      {isOpen && (
+        <ClickOutside onClick={handleModal}>
+          {!isDeleteComplete ? <ModalAlert /> : <ModalInfo />}
+        </ClickOutside>
+      )}
     </main>
   );
-}
+};
 
 export default Home;

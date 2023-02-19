@@ -1,8 +1,10 @@
-import ItemList from './ItemList';
+import './todo.scss';
 import { useDispatch, useSelector } from 'react-redux';
+
+import ItemList from './ItemList';
 import person from '../../assets/person.svg';
-import { setModalForm } from '../../app/reducers/modalFormSlice';
 import Person from '../controlled/Person';
+import { setModalForm } from '../../app/reducers/modalFormSlice';
 
 const Content = ({ items }) => {
   const dispatch = useDispatch();

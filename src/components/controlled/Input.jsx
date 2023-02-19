@@ -1,8 +1,9 @@
-import { useDispatch, useSelector } from 'react-redux';
 import { useMemo } from 'react';
+import { useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+
 import { setModalForm } from '../../app/reducers/modalFormSlice';
 import { useCreateTodoMutation } from '../../app/api/todoApiSlice';
-import { useParams } from 'react-router-dom';
 
 const Input = () => {
   const { id } = useParams();
@@ -39,15 +40,14 @@ const Input = () => {
     };
   }, [title, priority]);
 
-  const onSubmitWithEnter = async (e) => {
-    if (e.key === 'Enter') await createTodoHandler();
+  const onSubmitWithEnter = (e) => {
+    if (e.key === 'Enter') createTodoHandler();
   };
 
   return (
     <input
-      id='item-name'
-      value={title}
       autoFocus
+      value={title}
       onChange={handleChange}
       onKeyDown={onSubmitWithEnter}
       data-cy='modal-add-name-input'

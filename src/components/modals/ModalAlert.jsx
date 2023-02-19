@@ -1,3 +1,5 @@
+import './alert.scss';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { useDeleteGroupMutation } from '../../app/api/groupApiSlice';
 import { useDeleteTodoMutation } from '../../app/api/todoApiSlice';

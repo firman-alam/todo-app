@@ -1,10 +1,11 @@
+import './modal.scss';
 import { TbInfoCircle } from 'react-icons/tb';
 
 const ModalInfo = ({ type }) => {
   return (
     <div
-      data-cy='modal-information'
       className='modal__info'
+      data-cy='modal-information'
       onClick={(e) => e.stopPropagation()}
     >
       <TbInfoCircle data-cy='modal-information-icon' className='icon' />

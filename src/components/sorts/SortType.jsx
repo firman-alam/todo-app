@@ -12,7 +12,6 @@ const SortType = ({ type }) => {
       return <TbSortAscending className='icon' />;
     case 'OLD':
       return <TbSortDescending className='icon' />;
-
     case 'AZ':
       return <TbSortAscendingLetters className='icon' />;
     case 'ZA':

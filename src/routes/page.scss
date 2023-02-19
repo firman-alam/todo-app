@@ -1,0 +1,133 @@
+.home {
+  width: 100%;
+
+  .home__header {
+    width: 100%;
+    height: 100px;
+    background-color: #16abf8;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .home__title {
+      width: 100%;
+      max-width: 80%;
+
+      p {
+        background-color: #16abf8;
+        font-size: 22px;
+        font-weight: 700;
+        color: #ffffff;
+      }
+    }
+  }
+
+  .home__content {
+    display: flex;
+    flex-direction: column;
+    margin-top: 205px;
+    width: 100%;
+    max-width: 80%;
+    margin: auto;
+
+    .home__content-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 2rem 0;
+      font-size: 36px;
+      font-weight: 700;
+
+      .header__left,
+      .header__right {
+        display: flex;
+        align-items: center;
+      }
+
+      .header__right {
+        position: relative;
+        display: flex;
+        gap: 1rem;
+
+        .button-switch {
+          height: 35px;
+          width: 35px;
+          border-radius: 50%;
+          color: #888888;
+          border: 1px solid #888888;
+          cursor: pointer;
+        }
+
+        .button-add {
+          background-color: #16abf8;
+          color: #ffffff;
+          font-size: 18px;
+          line-height: 27px;
+          padding: 14px 21px;
+          border-radius: 45px;
+          border: none;
+          cursor: pointer;
+
+          display: flex;
+          align-items: center;
+          gap: 0.25rem;
+          background-color: #16abf8;
+
+          .icon,
+          span {
+            background-color: #16abf8;
+          }
+        }
+      }
+
+      .header__left {
+        gap: 1rem;
+
+        .icon {
+          align-items: start;
+          cursor: pointer;
+        }
+
+        .icon:last-child {
+          color: #a4a4a4;
+          font-size: 1.2rem;
+        }
+      }
+    }
+
+    .home__content-card {
+      align-items: center;
+      justify-content: start;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .home__content-items {
+      align-items: center;
+      justify-content: center;
+      margin: 0;
+    }
+
+    .button-new {
+      background-color: #16abf8;
+      color: #ffffff;
+      font-size: 18px;
+      line-height: 27px;
+      padding: 14px 21px;
+      border-radius: 45px;
+      border: none;
+      cursor: pointer;
+
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      background-color: #16abf8;
+
+      .icon,
+      span {
+        background-color: #16abf8;
+      }
+    }
+  }
+}

@@ -1,5 +1,3 @@
-import React from 'react';
-
 const ClickOutside = ({ children, ...props }) => {
   return (
     <div {...props} className='click__outside'>

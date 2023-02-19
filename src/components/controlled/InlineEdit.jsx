@@ -1,12 +1,12 @@
+import { HiOutlinePencil } from 'react-icons/hi';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
-import { useUpdateGroupMutation } from '../app/api/groupApiSlice';
-import { setSelectedActivity } from '../app/reducers/selectedActivitySlice';
-import { setTitle } from '../app/reducers/titleSlice';
-import { HiOutlinePencil } from 'react-icons/hi';
-import { useMemo } from 'react';
 
-function InlineEdit() {
+import { setTitle } from '../../app/reducers/titleSlice';
+import { useUpdateGroupMutation } from '../../app/api/groupApiSlice';
+import { setSelectedActivity } from '../../app/reducers/selectedActivitySlice';
+
+const InlineEdit = () => {
   const { id } = useParams();
   const { path } = useLocation();
   const dispatch = useDispatch();
@@ -53,9 +53,9 @@ function InlineEdit() {
       )}
       {isEditing && path !== '/' && (
         <input
-          className='edit__title'
-          type='text'
           autoFocus
+          type='text'
+          className='edit__title'
           onChange={handleChange}
           onKeyDown={onKeyDown}
           onBlur={handleSync}
@@ -72,6 +72,6 @@ function InlineEdit() {
       )}
     </div>
   );
-}
+};
 
 export default InlineEdit;

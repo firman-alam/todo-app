@@ -1,5 +1,6 @@
-import { sortList } from '../../helpers/helper';
 import SortItem from './SortItem';
+import { sortList } from '../../helpers/helper';
+import './sort.scss';
 
 const SortDropdown = () => {
   return (

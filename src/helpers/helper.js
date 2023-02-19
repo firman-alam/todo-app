@@ -26,12 +26,8 @@ function getMonthName(monthIndex) {
   return monthNames[monthIndex];
 }
 
-function ascSort(a, b) {
-  return a.id > b.id ? 1 : -1;
-}
-function descSort(a, b) {
-  return a.id < b.id ? 1 : -1;
-}
+export const ascSort = (a, b) => (a.id > b.id ? 1 : -1);
+export const descSort = (a, b) => (a.id < b.id ? 1 : -1);
 
 export const capsLetter = (str) => {
   const arr = (str === 'normal' ? 'medium' : str).replace('-', ' ').split(' ');

@@ -1,13 +1,11 @@
-import React from 'react';
-
-function Header({ onClick }) {
+const Header = () => {
   return (
-    <header className='home__header' onClick={onClick}>
+    <header className='home__header'>
       <div className='home__title'>
         <p data-cy='header-title'>TO DO LIST APP</p>
       </div>
     </header>
   );
-}
+};
 
 export default Header;
