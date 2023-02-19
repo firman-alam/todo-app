@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  title: 'Activity',
+  title: 'New Activity',
   todo_items: [],
 };
 

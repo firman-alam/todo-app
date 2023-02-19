@@ -17,9 +17,9 @@ const Content = ({ items }) => {
       case 'OLD':
         return todos.slice().sort((a, b) => a.id - b.id);
       case 'AZ':
-        return todos.slice().sort((a, b) => (a.title > b.title ? 1 : -1));
+        return todos.slice().sort((a, b) => a.localeCompare(b));
       case 'ZA':
-        return todos.slice().sort((a, b) => (a.title < b.title ? 1 : -1));
+        return todos.slice().sort((a, b) => b.localeCompare(a));
       case 'INCOMPLETED':
         return todos.slice().sort((a, b) => b.is_active - a.is_active);
       default:
